@@ -1,0 +1,24 @@
+* {
+    font-family: sans-serif;
+}
+
+.button {
+    padding: 10px;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#start:hover {
+    background: #eee;
+}
+
+#code {
+    width: 500px;
+    height: 200px;
+    display: block;
+}
+
+.mono {
+    font-family: monospace;
+}
