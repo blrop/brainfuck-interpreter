@@ -5,17 +5,21 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery.min.js"></script>
+    <script src="js/vue.js"></script>
     <script src="js/script.js"></script>
 </head>
 <body>
-    <textarea id="code">+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]</textarea>
+    <textarea class="js-code">+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]</textarea>
+    <div class="js-code-readonly" style="display: none;">+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]</div>
     <span id="start" class="button">Start</span>
     <span id="test" class="button">Test</span>
     <h3>memory:</h3>
-    <div class="mono">
-        0123456789
+    <div id="memory">
+        <div v-for="(item, index) in content" class="memory-item">
+            <div class="memory-item__index">{{ index }}</div>
+            <div class="memory-item__value">{{ item }}</div>
+        </div>
     </div>
-    <div id="memory" class="mono"></div>
     <h3>output:</h3>
     <div id="output" class="mono"></div>
 </body>

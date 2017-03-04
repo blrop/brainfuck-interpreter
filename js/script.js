@@ -1,21 +1,36 @@
+var memory;
+
 $(function() {
-    var memorySize = 20;
+    var memorySize = 50;
     var wordSize = 256;
 
-    var memoryDisplay = $('#memory');
     var outputField = $('#output');
 
-    var memory;
     var memoryPointer;
 
-    $('#start').click(function() {
-        memory = [];
+    memory = new Vue({
+        el: '#memory',
+        data: {
+            content: []
+        }
+    });
+    for (var i = 0; i < memorySize; i++) {
+        memory.content.push(0);
+    }
+    clearMemory();
+
+    function clearMemory() {
+        // заполняем массив памяти нулями и рендерим нужное кол-во клеток памяти
         for (var i = 0; i < memorySize; i++) {
-            memory.push(0);
+            Vue.set(memory.content, i, 0);
         }
         memoryPointer = 0;
+    }
 
-        var code = $('#code').val();
+    $('#start').click(function() {
+        clearMemory();
+
+        var code = $('.js-code').val();
         interpret(code, 0, code.length);
     });
 
@@ -46,7 +61,7 @@ $(function() {
         for (var codePointer = start; codePointer < end; codePointer++) {
             switch (code[codePointer]) {
                 case '.':
-                    printToOutput(memory[memoryPointer]);
+                    printToOutput(memory.content[memoryPointer]);
                     break;
 
                 case ',':
@@ -54,19 +69,17 @@ $(function() {
                     break;
 
                 case '+':
-                    memory[memoryPointer]++;
-                    if (memory[memoryPointer] > (wordSize - 1)) {
-                        memory[memoryPointer] = 0;
+                    Vue.set(memory.content, memoryPointer, memory.content[memoryPointer] + 1);
+                    if (memory.content[memoryPointer] > (wordSize - 1)) {
+                        Vue.set(memory.content, memoryPointer, 0);
                     }
-                    showMemory(memory);
                     break;
 
                 case '-':
-                    memory[memoryPointer]--;
-                    if (memory[memoryPointer] < 0) {
-                        memory[memoryPointer] = (wordSize - 1);
+                    Vue.set(memory.content, memoryPointer, memory.content[memoryPointer] - 1);
+                    if (memory.content[memoryPointer] < 0) {
+                        Vue.set(memory.content, memoryPointer, wordSize - 1);
                     }
-                    showMemory(memory);
                     break;
 
                 case '>':
@@ -87,7 +100,7 @@ $(function() {
 
                 case '[':
                     var closingBracketPosition = findClosingBracket(codePointer, code);
-                    while (memory[memoryPointer]) {
+                    while (memory.content[memoryPointer]) {
                         interpret(code, codePointer + 1, closingBracketPosition);
                     }
                     codePointer = closingBracketPosition;
@@ -101,10 +114,6 @@ $(function() {
                     //console.log('Unknown character');
             }
         }
-    }
-
-    function showMemory(memory) {
-        memoryDisplay.text(memory.join(','));
     }
 
     function printToOutput(byte) {

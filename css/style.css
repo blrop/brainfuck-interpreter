@@ -13,12 +13,27 @@
     background: #eee;
 }
 
-#code {
+.js-code-readonly,
+.js-code {
     width: 500px;
     height: 200px;
     display: block;
+    font-size: 16px;
+    font-family: monospace;
+    border: 1px solid #333;
+    padding: 5px 10px;
 }
 
 .mono {
     font-family: monospace;
+}
+
+.memory-item {
+    display: inline-block;
+    width: 30px;
+    font-family: monospace;
+    text-align: center;
+}
+.memory-item__index {
+    color: #aaa;
 }
