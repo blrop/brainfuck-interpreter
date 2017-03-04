@@ -9,8 +9,10 @@
     <script src="js/script.js"></script>
 </head>
 <body>
-    <textarea class="js-code">+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]</textarea>
-    <div class="js-code-readonly" style="display: none;">+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]</div>
+    <div id="code">
+        <textarea class="js-code" v-model="code" v-if="!running"></textarea>
+        <div v-else class="js-code-readonly">{{ code }}</div>
+    </div>
     <span id="start" class="button">Start</span>
     <span id="test" class="button">Test</span>
     <h3>memory:</h3>

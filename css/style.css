@@ -13,6 +13,10 @@
     background: #eee;
 }
 
+.js-code-readonly {
+    background: #ddd;
+}
+
 .js-code-readonly,
 .js-code {
     width: 500px;

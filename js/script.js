@@ -1,5 +1,3 @@
-var memory;
-
 $(function() {
     function log(n) {
         console.log(n);
@@ -12,7 +10,7 @@ $(function() {
 
     var memoryPointer;
 
-    memory = new Vue({
+    var vMemory = new Vue({
         el: '#memory',
         data: {
             content: [],
@@ -20,19 +18,30 @@ $(function() {
         }
     });
     for (var i = 0; i < memorySize; i++) {
-        memory.content.push(0);
+        vMemory.content.push(0);
     }
     clearMemory();
+
+    var vCode = new Vue({
+        el: '#code',
+        data: {
+            code: '+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]',
+            running: false
+        }
+    });
+
 
     function clearMemory() {
         // заполняем массив памяти нулями и рендерим нужное кол-во клеток памяти
         for (var i = 0; i < memorySize; i++) {
-            Vue.set(memory.content, i, 0);
+            Vue.set(vMemory.content, i, 0);
         }
         memoryPointer = 0;
     }
 
     $('#start').click(function() {
+        vCode.running = true;
+
         clearMemory();
 
         var code = $('.js-code').val();
@@ -42,11 +51,12 @@ $(function() {
         var intervalId = setInterval(function() {
             if (!item.done) {
                 item = iterator.next();
-                memory.selected = memoryPointer;
+                vMemory.selected = memoryPointer;
             } else {
                 clearInterval(intervalId);
+                vCode.running = false;
             }
-        }, 50);
+        }, 10);
     });
 
     $('#test').click(function() {
@@ -76,7 +86,7 @@ $(function() {
         for (var codePointer = start; codePointer < end; codePointer++) {
             switch (code[codePointer]) {
                 case '.':
-                    printToOutput(memory.content[memoryPointer]);
+                    printToOutput(vMemory.content[memoryPointer]);
                     break;
 
                 case ',':
@@ -84,16 +94,16 @@ $(function() {
                     break;
 
                 case '+':
-                    Vue.set(memory.content, memoryPointer, memory.content[memoryPointer] + 1);
-                    if (memory.content[memoryPointer] > (wordSize - 1)) {
-                        Vue.set(memory.content, memoryPointer, 0);
+                    Vue.set(vMemory.content, memoryPointer, vMemory.content[memoryPointer] + 1);
+                    if (vMemory.content[memoryPointer] > (wordSize - 1)) {
+                        Vue.set(vMemory.content, memoryPointer, 0);
                     }
                     break;
 
                 case '-':
-                    Vue.set(memory.content, memoryPointer, memory.content[memoryPointer] - 1);
-                    if (memory.content[memoryPointer] < 0) {
-                        Vue.set(memory.content, memoryPointer, wordSize - 1);
+                    Vue.set(vMemory.content, memoryPointer, vMemory.content[memoryPointer] - 1);
+                    if (vMemory.content[memoryPointer] < 0) {
+                        Vue.set(vMemory.content, memoryPointer, wordSize - 1);
                     }
                     break;
 
@@ -115,7 +125,7 @@ $(function() {
 
                 case '[':
                     var closingBracketPosition = findClosingBracket(codePointer, code);
-                    while (memory.content[memoryPointer]) {
+                    while (vMemory.content[memoryPointer]) {
                         yield* interpret(code, codePointer + 1, closingBracketPosition);
                     }
                     codePointer = closingBracketPosition;
