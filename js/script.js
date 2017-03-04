@@ -1,6 +1,10 @@
 var memory;
 
 $(function() {
+    function log(n) {
+        console.log(n);
+    }
+
     var memorySize = 50;
     var wordSize = 256;
 
@@ -33,18 +37,16 @@ $(function() {
 
         var code = $('.js-code').val();
         var iterator = interpret(code, 0, code.length);
-        var item = iterator.next();
-        // while (!item.done) {
-        //     item = iterator.next();
-        // }
 
+        var item = iterator.next();
         var intervalId = setInterval(function() {
             if (!item.done) {
-                iterator.next();
+                item = iterator.next();
+                memory.selected = memoryPointer;
             } else {
                 clearInterval(intervalId);
             }
-        }, 500);
+        }, 50);
     });
 
     $('#test').click(function() {
