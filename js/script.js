@@ -86,6 +86,7 @@ $(function() {
 
     function* interpret(code, start, end) {
         for (var codePointer = start; codePointer < end; codePointer++) {
+            var unknownCharacter = false;
             switch (code[codePointer]) {
                 case '.':
                     printToOutput(vMemory.content[memoryPointer]);
@@ -138,9 +139,11 @@ $(function() {
                     break;
 
                 default:
-                    //console.log('Unknown character');
+                    unknownCharacter = true;
             }
-            yield codePointer;
+            if (!unknownCharacter) {
+                yield codePointer;
+            }
         }
     }
 
