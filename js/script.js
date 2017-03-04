@@ -26,7 +26,8 @@ $(function() {
         el: '#code',
         data: {
             code: '+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]',
-            running: false
+            running: false,
+            selected: 0
         }
     });
 
@@ -51,12 +52,13 @@ $(function() {
         var intervalId = setInterval(function() {
             if (!item.done) {
                 item = iterator.next();
+                vCode.selected = item.value;
                 vMemory.selected = memoryPointer;
             } else {
                 clearInterval(intervalId);
                 vCode.running = false;
             }
-        }, 10);
+        }, 100);
     });
 
     $('#test').click(function() {

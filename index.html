@@ -11,7 +11,12 @@
 <body>
     <div id="code">
         <textarea class="js-code" v-model="code" v-if="!running"></textarea>
-        <div v-else class="js-code-readonly">{{ code }}</div>
+        <div v-else class="js-code-readonly" >
+            <span v-for="(item, index) in code">
+                <span v-if="index == selected" class="selected">{{ item }}</span>
+                <span v-else>{{ item }}</span>
+            </span>
+        </div>
     </div>
     <span id="start" class="button">Start</span>
     <span id="test" class="button">Test</span>
