@@ -16,7 +16,12 @@
     <h3>memory:</h3>
     <div id="memory">
         <div v-for="(item, index) in content" class="memory-item">
-            <div class="memory-item__index">{{ index }}</div>
+            <div v-if="index == selected" class="memory-item__index selected">
+                {{ index }}
+            </div>
+            <div v-else class="memory-item__index">
+                {{ index }}
+            </div>
             <div class="memory-item__value">{{ item }}</div>
         </div>
     </div>

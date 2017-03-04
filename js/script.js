@@ -11,7 +11,8 @@ $(function() {
     memory = new Vue({
         el: '#memory',
         data: {
-            content: []
+            content: [],
+            selected: 0
         }
     });
     for (var i = 0; i < memorySize; i++) {
@@ -33,9 +34,17 @@ $(function() {
         var code = $('.js-code').val();
         var iterator = interpret(code, 0, code.length);
         var item = iterator.next();
-        while (!item.done) {
-            item = iterator.next();
-        }
+        // while (!item.done) {
+        //     item = iterator.next();
+        // }
+
+        var intervalId = setInterval(function() {
+            if (!item.done) {
+                iterator.next();
+            } else {
+                clearInterval(intervalId);
+            }
+        }, 500);
     });
 
     $('#test').click(function() {
