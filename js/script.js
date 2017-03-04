@@ -31,7 +31,11 @@ $(function() {
         clearMemory();
 
         var code = $('.js-code').val();
-        interpret(code, 0, code.length);
+        var iterator = interpret(code, 0, code.length);
+        var item = iterator.next();
+        while (!item.done) {
+            item = iterator.next();
+        }
     });
 
     $('#test').click(function() {
@@ -57,7 +61,7 @@ $(function() {
         return index - 1;
     }
 
-    function interpret(code, start, end) {
+    function* interpret(code, start, end) {
         for (var codePointer = start; codePointer < end; codePointer++) {
             switch (code[codePointer]) {
                 case '.':
@@ -101,7 +105,7 @@ $(function() {
                 case '[':
                     var closingBracketPosition = findClosingBracket(codePointer, code);
                     while (memory.content[memoryPointer]) {
-                        interpret(code, codePointer + 1, closingBracketPosition);
+                        yield* interpret(code, codePointer + 1, closingBracketPosition);
                     }
                     codePointer = closingBracketPosition;
                     break;
@@ -113,6 +117,7 @@ $(function() {
                 default:
                     //console.log('Unknown character');
             }
+            yield codePointer;
         }
     }
 
