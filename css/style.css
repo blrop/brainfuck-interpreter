@@ -15,12 +15,13 @@
 
 .js-code-readonly {
     background: #ddd;
+    white-space: pre-wrap;
 }
 
 .js-code-readonly,
 .js-code {
     width: 500px;
-    height: 200px;
+    min-height: 200px;
     display: block;
     font-size: 16px;
     font-family: monospace;

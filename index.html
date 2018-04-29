@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Brainfuck interpreter</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/vue.js"></script>
@@ -11,11 +11,11 @@
 <body>
     <div id="code">
         <textarea class="js-code" v-model="code" v-if="!running"></textarea>
-        <div v-else class="js-code-readonly" >
-            <span v-for="(item, index) in code">
+        <div v-else class="js-code-readonly">
+            <template v-for="(item, index) in codeToDisplay">
                 <span v-if="index == selected" class="selected">{{ item }}</span>
                 <span v-else>{{ item }}</span>
-            </span>
+            </template>
         </div>
     </div>
     <span id="start" class="button">Start</span>

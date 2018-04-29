@@ -5,6 +5,7 @@ $(function() {
 
     var memorySize = 50;
     var wordSize = 256;
+    var stepDelay = 30;
 
     var outputField = $('#output');
 
@@ -25,7 +26,7 @@ $(function() {
     var vCode = new Vue({
         el: '#code',
         data: {
-            code: '+++>+++++<[->>+>+<<<]>>>[-<<<+>>>]<<[->>+>+<<<]>>>[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]',
+            code: '+++>+++++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]',
             running: false,
             selected: 0
         }
@@ -45,8 +46,9 @@ $(function() {
 
         clearMemory();
 
-        var code = $('.js-code').val();
-        var iterator = interpret(code, 0, code.length);
+        vCode.codeToDisplay = vCode.code;
+
+        var iterator = interpret(vCode.code, 0, vCode.code.length);
 
         var item = iterator.next();
         var intervalId = setInterval(function() {
@@ -58,7 +60,7 @@ $(function() {
                 clearInterval(intervalId);
                 vCode.running = false;
             }
-        }, 100);
+        }, stepDelay);
     });
 
     $('#test').click(function() {
