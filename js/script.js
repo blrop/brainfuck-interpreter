@@ -1,32 +1,35 @@
 $(function() {
-    const defaultCode = '+++>++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
-    //const defaultCode = '+++++++++++++++++++++++++++++++++++...';
+    const DEFAULT_CODE = '+++>++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
+    //const DEFAULT_CODE = '+++++++++++++++++++++++++++++++++++...';
 
-    const memorySize = 256;
-    const wordSize = 256;
-    const stepDelay = 30;
-
-    let memoryPointer = 0;
+    const MEMORY_SIZE = 256;
+    const WORD_SIZE = 256;
+    const STEP_DELAY = 30;
 
     let vMemory = new Vue({
         el: '#memory',
         data: {
-            content: [],
-            selected: 0
+            content: new Array(MEMORY_SIZE),
+            selected: 0,
+            pointer: 0
         },
         methods: {
             clear: function() {
-                for (let i = 0; i < memorySize; i++) {
+                for (let i = 0; i < MEMORY_SIZE; i++) {
                     Vue.set(this.content, i, 0);
                 }
-                memoryPointer = 0;
+                this.pointer = 0;
             }
+        },
+        created: function() {
+            this.content.fill(0);
+            this.clear();
         }
     });
     let vCode = new Vue({
         el: '#code',
         data: {
-            code: defaultCode,
+            code: DEFAULT_CODE,
             running: false,
             selected: 0
         }
@@ -40,35 +43,37 @@ $(function() {
             printByte: function(byte) {
                 let char = String.fromCharCode(byte);
                 this.content = this.content + char;
+            },
+            clear: function() {
+                this.content = '';
             }
         }
     });
 
-    for (let i = 0; i < memorySize; i++) {
-        vMemory.content.push(0);
-    }
-    vMemory.clear();
-
     $('#start-button').click(function() {
-        vCode.running = true;
-
+        vOutput.clear();
         vMemory.clear();
 
         vCode.codeToDisplay = vCode.code;
+        vCode.running = true;
 
         let iterator = interpret(vCode.code, 0, vCode.code.length);
 
         let item = iterator.next();
         let intervalId = setInterval(function() {
-            if (!item.done) {
+            if (!item.done && vCode.running) {
                 item = iterator.next();
                 vCode.selected = item.value;
-                vMemory.selected = memoryPointer;
+                vMemory.selected = vMemory.pointer;
             } else {
                 clearInterval(intervalId);
                 vCode.running = false;
             }
-        }, stepDelay);
+        }, STEP_DELAY);
+    });
+
+    $('#stop-button').click(function() {
+        vCode.running = false;
     });
 
     function findClosingBracket(start, text) {
@@ -95,46 +100,46 @@ $(function() {
             let unknownCharacter = false;
             switch (code[codePointer]) {
                 case '.':
-                    vOutput.printByte(vMemory.content[memoryPointer]);
+                    vOutput.printByte(vMemory.content[vMemory.pointer]);
                     break;
 
                 case ',':
-
+                    // todo: implement input action
                     break;
 
                 case '+':
-                    Vue.set(vMemory.content, memoryPointer, vMemory.content[memoryPointer] + 1);
-                    if (vMemory.content[memoryPointer] > (wordSize - 1)) {
-                        Vue.set(vMemory.content, memoryPointer, 0);
+                    Vue.set(vMemory.content, vMemory.pointer, vMemory.content[vMemory.pointer] + 1);
+                    if (vMemory.content[vMemory.pointer] > (WORD_SIZE - 1)) {
+                        Vue.set(vMemory.content, vMemory.pointer, 0);
                     }
                     break;
 
                 case '-':
-                    Vue.set(vMemory.content, memoryPointer, vMemory.content[memoryPointer] - 1);
-                    if (vMemory.content[memoryPointer] < 0) {
-                        Vue.set(vMemory.content, memoryPointer, wordSize - 1);
+                    Vue.set(vMemory.content, vMemory.pointer, vMemory.content[vMemory.pointer] - 1);
+                    if (vMemory.content[vMemory.pointer] < 0) {
+                        Vue.set(vMemory.content, vMemory.pointer, WORD_SIZE - 1);
                     }
                     break;
 
                 case '>':
-                    if ((memoryPointer + 2) < memorySize) {
-                        memoryPointer++;
+                    if ((vMemory.pointer + 2) < MEMORY_SIZE) {
+                        vMemory.pointer++;
                     } else {
-                        memoryPointer = 0;
+                        vMemory.pointer = 0;
                     }
                     break;
 
                 case '<':
-                    if (memoryPointer > 0) {
-                        memoryPointer--;
+                    if (vMemory.pointer > 0) {
+                        vMemory.pointer--;
                     } else {
-                        memoryPointer = memorySize - 1;
+                        vMemory.pointer = MEMORY_SIZE - 1;
                     }
                     break;
 
                 case '[':
                     let closingBracketPosition = findClosingBracket(codePointer, code);
-                    while (vMemory.content[memoryPointer]) {
+                    while (vMemory.content[vMemory.pointer]) {
                         yield* interpret(code, codePointer + 1, closingBracketPosition);
                     }
                     codePointer = closingBracketPosition;
