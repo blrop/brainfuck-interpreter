@@ -1,11 +1,11 @@
 $(function() {
     let defaultCode = '+++>+++++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
 
-    let memorySize = 50;
+    let memorySize = 256;
     let wordSize = 256;
     let stepDelay = 30;
 
-    let outputField = $('#output');
+    let outputField = $('#output .content');
 
     let memoryPointer;
 
@@ -38,7 +38,7 @@ $(function() {
         memoryPointer = 0;
     }
 
-    $('#start').click(function() {
+    $('#start-button').click(function() {
         vCode.running = true;
 
         clearMemory();
@@ -58,10 +58,6 @@ $(function() {
                 vCode.running = false;
             }
         }, stepDelay);
-    });
-
-    $('#test').click(function() {
-
     });
 
     function findClosingBracket(start, text) {
@@ -148,7 +144,7 @@ $(function() {
 
     function printToOutput(byte) {
         let char;
-        if (byte === 10) {
+        if (byte === 13) {
             char = '<br>';
         } else {
             char = String.fromCharCode(byte);
