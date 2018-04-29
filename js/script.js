@@ -1,32 +1,30 @@
 $(function() {
-    function log(n) {
-        console.log(n);
-    }
+    let defaultCode = '+++>+++++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
 
-    var memorySize = 50;
-    var wordSize = 256;
-    var stepDelay = 30;
+    let memorySize = 50;
+    let wordSize = 256;
+    let stepDelay = 30;
 
-    var outputField = $('#output');
+    let outputField = $('#output');
 
-    var memoryPointer;
+    let memoryPointer;
 
-    var vMemory = new Vue({
+    let vMemory = new Vue({
         el: '#memory',
         data: {
             content: [],
             selected: 0
         }
     });
-    for (var i = 0; i < memorySize; i++) {
+    for (let i = 0; i < memorySize; i++) {
         vMemory.content.push(0);
     }
     clearMemory();
 
-    var vCode = new Vue({
+    let vCode = new Vue({
         el: '#code',
         data: {
-            code: '+++>+++++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]',
+            code: defaultCode,
             running: false,
             selected: 0
         }
@@ -34,8 +32,7 @@ $(function() {
 
 
     function clearMemory() {
-        // заполняем массив памяти нулями и рендерим нужное кол-во клеток памяти
-        for (var i = 0; i < memorySize; i++) {
+        for (let i = 0; i < memorySize; i++) {
             Vue.set(vMemory.content, i, 0);
         }
         memoryPointer = 0;
@@ -48,10 +45,10 @@ $(function() {
 
         vCode.codeToDisplay = vCode.code;
 
-        var iterator = interpret(vCode.code, 0, vCode.code.length);
+        let iterator = interpret(vCode.code, 0, vCode.code.length);
 
-        var item = iterator.next();
-        var intervalId = setInterval(function() {
+        let item = iterator.next();
+        let intervalId = setInterval(function() {
             if (!item.done) {
                 item = iterator.next();
                 vCode.selected = item.value;
@@ -68,17 +65,17 @@ $(function() {
     });
 
     function findClosingBracket(start, text) {
-        var bracketCount = 0;
-        var index = start;
+        let bracketCount = 0;
+        let index = start;
         do {
             if (index > (text.length - 1)) {
                 console.log('Error: Unexpected end of line while closing bracket searching');
                 return;
             }
-            if (text[index] == '[') {
+            if (text[index] === '[') {
                 bracketCount++;
             }
-            if (text[index] == ']') {
+            if (text[index] === ']') {
                 bracketCount--;
             }
             index++;
@@ -87,8 +84,8 @@ $(function() {
     }
 
     function* interpret(code, start, end) {
-        for (var codePointer = start; codePointer < end; codePointer++) {
-            var unknownCharacter = false;
+        for (let codePointer = start; codePointer < end; codePointer++) {
+            let unknownCharacter = false;
             switch (code[codePointer]) {
                 case '.':
                     printToOutput(vMemory.content[memoryPointer]);
@@ -129,7 +126,7 @@ $(function() {
                     break;
 
                 case '[':
-                    var closingBracketPosition = findClosingBracket(codePointer, code);
+                    let closingBracketPosition = findClosingBracket(codePointer, code);
                     while (vMemory.content[memoryPointer]) {
                         yield* interpret(code, codePointer + 1, closingBracketPosition);
                     }
@@ -150,13 +147,13 @@ $(function() {
     }
 
     function printToOutput(byte) {
-        var char;
-        if (byte == 10) {
+        let char;
+        if (byte === 10) {
             char = '<br>';
         } else {
             char = String.fromCharCode(byte);
         }
-        var newOutput = outputField.html() + char;
+        let newOutput = outputField.html() + char;
         outputField.html(newOutput);
     }
 });
