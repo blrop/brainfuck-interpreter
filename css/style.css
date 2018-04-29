@@ -19,8 +19,9 @@
     background: yellow;
 }
 
-.mono {
+#output .content {
     font-family: monospace;
+    white-space: pre-wrap;
 }
 
 .memory-item {

@@ -1,26 +1,28 @@
 $(function() {
-    let defaultCode = '+++>+++++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
+    const defaultCode = '+++>++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
+    //const defaultCode = '+++++++++++++++++++++++++++++++++++...';
 
-    let memorySize = 256;
-    let wordSize = 256;
-    let stepDelay = 30;
+    const memorySize = 256;
+    const wordSize = 256;
+    const stepDelay = 30;
 
-    let outputField = $('#output .content');
-
-    let memoryPointer;
+    let memoryPointer = 0;
 
     let vMemory = new Vue({
         el: '#memory',
         data: {
             content: [],
             selected: 0
+        },
+        methods: {
+            clear: function() {
+                for (let i = 0; i < memorySize; i++) {
+                    Vue.set(this.content, i, 0);
+                }
+                memoryPointer = 0;
+            }
         }
     });
-    for (let i = 0; i < memorySize; i++) {
-        vMemory.content.push(0);
-    }
-    clearMemory();
-
     let vCode = new Vue({
         el: '#code',
         data: {
@@ -29,19 +31,28 @@ $(function() {
             selected: 0
         }
     });
-
-
-    function clearMemory() {
-        for (let i = 0; i < memorySize; i++) {
-            Vue.set(vMemory.content, i, 0);
+    let vOutput = new Vue({
+        el: '#output',
+        data: {
+            content: ''
+        },
+        methods: {
+            printByte: function(byte) {
+                let char = String.fromCharCode(byte);
+                this.content = this.content + char;
+            }
         }
-        memoryPointer = 0;
+    });
+
+    for (let i = 0; i < memorySize; i++) {
+        vMemory.content.push(0);
     }
+    vMemory.clear();
 
     $('#start-button').click(function() {
         vCode.running = true;
 
-        clearMemory();
+        vMemory.clear();
 
         vCode.codeToDisplay = vCode.code;
 
@@ -84,7 +95,7 @@ $(function() {
             let unknownCharacter = false;
             switch (code[codePointer]) {
                 case '.':
-                    printToOutput(vMemory.content[memoryPointer]);
+                    vOutput.printByte(vMemory.content[memoryPointer]);
                     break;
 
                 case ',':
@@ -140,16 +151,5 @@ $(function() {
                 yield codePointer;
             }
         }
-    }
-
-    function printToOutput(byte) {
-        let char;
-        if (byte === 13) {
-            char = '<br>';
-        } else {
-            char = String.fromCharCode(byte);
-        }
-        let newOutput = outputField.html() + char;
-        outputField.html(newOutput);
     }
 });

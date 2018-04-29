@@ -28,9 +28,13 @@
                     <button v-else id="stop" class="btn btn-secondary"><i class="fa fa-stop"></i> Stop</button>
                 </div>
 
+                <div id="visual-memory">
+                    <h2>Visual memory</h2>
+                </div>
+                
                 <div id="output">
                     <h2>Output</h2>
-                    <div class="content mono"></div>
+                    <div class="content">{{ content }}</div>
                 </div>
             </div>
             <div class="col-md-6">
