@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Brainfuck interpreter</title>
@@ -13,8 +13,7 @@
         <textarea class="js-code" v-model="code" v-if="!running"></textarea>
         <div v-else class="js-code-readonly">
             <template v-for="(item, index) in codeToDisplay">
-                <span v-if="index == selected" class="selected">{{ item }}</span>
-                <span v-else>{{ item }}</span>
+                <span v-bind:class="{ selected: index == selected }">{{ item }}</span>
             </template>
         </div>
     </div>
