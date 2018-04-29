@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Brainfuck interpreter</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/vue.js"></script>
-    <script src="js/script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -20,12 +17,12 @@
                     <h2>Code</h2>
                     <textarea v-if="!running" class="js-code" v-model="code"></textarea>
                     <div v-else class="js-code-readonly">
-                        <template v-for="(item, index) in codeToDisplay">
+                        <template v-for="(item, index) in code">
                             <span v-bind:class="{ current: index == selected }">{{ item }}</span>
                         </template>
                     </div>
-                    <button v-if="!running" id="start-button" class="btn btn-primary"><i class="fa fa-play"></i> Start</button>
-                    <button v-else id="stop-button" class="btn btn-secondary"><i class="fa fa-stop"></i> Stop</button>
+                    <button v-if="!running" v-on:click="start" class="btn btn-primary"><i class="fa fa-play"></i> Start</button>
+                    <button v-else v-on:click="stop" class="btn btn-secondary"><i class="fa fa-stop"></i> Stop</button>
                 </div>
 
                 <div id="visual-memory">
@@ -52,5 +49,8 @@
             </div>
         </div>
     </div>
+
+    <script src="js/vue.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
