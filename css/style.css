@@ -1,10 +1,10 @@
-.js-code-readonly {
+#code .code-readonly {
     background: #ddd;
     white-space: pre-wrap;
 }
 
-.js-code-readonly,
-.js-code {
+#code .code-readonly,
+#code .code {
     width: 100%;
     min-height: 300px;
     display: block;
@@ -15,7 +15,7 @@
     margin-bottom: 15px;
 }
 
-.js-code-readonly .current {
+#code .code-readonly .current {
     background: yellow;
 }
 
@@ -24,7 +24,7 @@
     white-space: pre-wrap;
 }
 
-.memory-item {
+#memory .item {
     float: left;
     width: 30px;
     font-family: monospace;
@@ -34,17 +34,17 @@
     border: 1px solid transparent;
 }
 
-.memory-item:nth-child(16n + 1) {
+#memory .item:nth-of-type(16n + 1) {
     clear: left;
 }
 
-.memory-item__index {
+#memory .index {
     color: #aaa;
     font-size: 12px;
     margin-bottom: 2px;
 }
 
-.memory-item.selected {
+#memory .item.selected {
     border: 1px solid #333;
     background: #eeeeee;
 }

@@ -15,8 +15,8 @@
             <div class="col-md-6">
                 <div id="code">
                     <h2>Code</h2>
-                    <textarea v-if="!running" class="js-code" v-model="code"></textarea>
-                    <div v-else class="js-code-readonly">
+                    <textarea v-if="!running" class="code" v-model="code"></textarea>
+                    <div v-else class="code-readonly">
                         <template v-for="(item, index) in code">
                             <span v-bind:class="{ current: index == selected }">{{ item }}</span>
                         </template>
@@ -27,6 +27,9 @@
 
                 <div id="visual-memory">
                     <h2>Visual memory</h2>
+                    <template v-for="(item, index) in content">
+
+                    </template>
                 </div>
                 
                 <div id="output">
@@ -35,14 +38,14 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h2>Memory</h2>
                 <div id="memory">
-                    <template v-for="(item, index) in content" class="">
-                        <div class="memory-item" v-bind:class="{ selected: index == selected }">
-                            <div class="memory-item__index">
+                    <h2>Memory</h2>
+                    <template v-for="(item, index) in content">
+                        <div class="item" v-bind:class="{ selected: index == selected }">
+                            <div class="index">
                                 {{ index }}
                             </div>
-                            <div class="memory-item__value">{{ item }}</div>
+                            <div class="value">{{ item }}</div>
                         </div>
                     </template>
                 </div>
