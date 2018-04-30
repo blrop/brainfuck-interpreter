@@ -8,54 +8,56 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Brainfuck interpreter</h1>
+    <main>
+        <div class="container">
+            <h1>Brainfuck interpreter</h1>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div id="code">
-                    <h2>Code</h2>
-                    <textarea v-if="!running" class="code" v-model="code"></textarea>
-                    <div v-else class="code-readonly">
-                        <template v-for="(item, index) in code">
-                            <span v-bind:class="{ current: index == selected }">{{ item }}</span>
-                        </template>
-                    </div>
-                    <button v-if="!running" v-on:click="start" class="btn btn-primary"><i class="fa fa-play"></i> Start</button>
-                    <button v-else v-on:click="stop" class="btn btn-secondary"><i class="fa fa-stop"></i> Stop</button>
-                </div>
-
-                <div id="output">
-                    <h2>Output</h2>
-                    <div class="content">{{ content }}</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div id="memory">
-                    <h2>Visual memory</h2>
-                    <div class="visual-memory">
-                        <div class="items-wrapper">
-                            <template v-for="item in content">
-                                <div class="item item--pixel" v-bind:style="{ background: getItemColor(item) }"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="code">
+                        <h2>Code</h2>
+                        <textarea v-if="!running" class="code" v-model="code"></textarea>
+                        <div v-else class="code-readonly">
+                            <template v-for="(item, index) in code">
+                                <span v-bind:class="{ current: index == selected }">{{ item }}</span>
                             </template>
                         </div>
+                        <button v-if="!running" v-on:click="start" class="btn btn-primary"><i class="fa fa-play"></i> Start</button>
+                        <button v-else v-on:click="stop" class="btn btn-secondary"><i class="fa fa-stop"></i> Stop</button>
                     </div>
 
-                    <h2>Memory</h2>
-                    <div class="items-wrapper">
-                        <template v-for="(item, index) in content">
-                            <div class="item" v-bind:class="{ selected: index == selected }">
-                                <div class="index">
-                                    {{ index }}
-                                </div>
-                                <div class="value">{{ item }}</div>
+                    <div id="output">
+                        <h2>Output</h2>
+                        <div class="content">{{ content }}</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="memory">
+                        <h2>Visual memory</h2>
+                        <div class="visual-memory">
+                            <div class="items-wrapper">
+                                <template v-for="item in content">
+                                    <div class="item item--pixel" v-bind:style="{ background: getItemColor(item) }"></div>
+                                </template>
                             </div>
-                        </template>
+                        </div>
+
+                        <h2>Memory</h2>
+                        <div class="items-wrapper">
+                            <template v-for="(item, index) in content">
+                                <div class="item" v-bind:class="{ selected: index == selected }">
+                                    <div class="index">
+                                        {{ index }}
+                                    </div>
+                                    <div class="value">{{ item }}</div>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script src="js/vue.js"></script>
     <script src="js/script.js"></script>
