@@ -25,13 +25,6 @@
                     <button v-else v-on:click="stop" class="btn btn-secondary"><i class="fa fa-stop"></i> Stop</button>
                 </div>
 
-                <div id="visual-memory">
-                    <h2>Visual memory</h2>
-                    <template v-for="(item, index) in content">
-
-                    </template>
-                </div>
-                
                 <div id="output">
                     <h2>Output</h2>
                     <div class="content">{{ content }}</div>
@@ -39,15 +32,26 @@
             </div>
             <div class="col-md-6">
                 <div id="memory">
-                    <h2>Memory</h2>
-                    <template v-for="(item, index) in content">
-                        <div class="item" v-bind:class="{ selected: index == selected }">
-                            <div class="index">
-                                {{ index }}
-                            </div>
-                            <div class="value">{{ item }}</div>
+                    <h2>Visual memory</h2>
+                    <div class="visual-memory">
+                        <div class="items-wrapper">
+                            <template v-for="item in content">
+                                <div class="item item--pixel" v-bind:style="{ background: getItemColor(item) }"></div>
+                            </template>
                         </div>
-                    </template>
+                    </div>
+
+                    <h2>Memory</h2>
+                    <div class="items-wrapper">
+                        <template v-for="(item, index) in content">
+                            <div class="item" v-bind:class="{ selected: index == selected }">
+                                <div class="index">
+                                    {{ index }}
+                                </div>
+                                <div class="value">{{ item }}</div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>

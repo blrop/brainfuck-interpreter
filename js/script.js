@@ -18,6 +18,13 @@ let vMemory = new Vue({
                 Vue.set(this.content, i, 0);
             }
             this.pointer = 0;
+        },
+        getItemColor: function(value) {
+            // use only 6 bits to translate them to some color
+            let r = (value & 1 || value & 8) ? 'ff' : '00';
+            let g = (value & 2 || value & 16) ? 'ff' : '00';
+            let b = (value & 4 || value & 32) ? 'ff' : '00';
+            return '#' + r + g + b;
         }
     },
     created: function() {

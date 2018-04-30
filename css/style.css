@@ -1,6 +1,11 @@
+h2 {
+    clear: both;
+}
+
 #code .code-readonly {
     background: #ddd;
     white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 #code .code-readonly,
@@ -22,6 +27,7 @@
 #output .content {
     font-family: monospace;
     white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 #memory .item {
@@ -34,7 +40,18 @@
     border: 1px solid transparent;
 }
 
-#memory .item:nth-of-type(16n + 1) {
+#memory .item--pixel {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #999;
+    margin: -1px 0 0 -1px;
+}
+
+#memory .item--pixel.filled {
+    background: #000000;
+}
+
+#memory .items-wrapper .item:nth-of-type(16n + 1) {
     clear: left;
 }
 
@@ -47,4 +64,10 @@
 #memory .item.selected {
     border: 1px solid #333;
     background: #eeeeee;
+}
+
+#memory .visual-memory {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
 }
