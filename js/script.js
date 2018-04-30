@@ -1,9 +1,9 @@
-const DEFAULT_CODE = '+++>++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
-//const DEFAULT_CODE = '+++++++++++++++++++++++++++++++++++...';
+//const DEFAULT_CODE = '+++>++<\n[->>+>+<<<]>>>\n[-<<<+>>>]<<\n[->>+>+<<<]>>>\n[-<<<+>>>]<[<[->>+>+<<<]>>>[-<<<+>>>]<[->>+<<]<-]';
+const DEFAULT_CODE = '+[>>>+>>++>>+++]';
 
 const MEMORY_SIZE = 256;
 const WORD_SIZE = 256;
-const STEP_DELAY = 30;
+const STEP_DELAY = 10;
 
 let vMemory = new Vue({
     el: '#memory',
@@ -127,7 +127,7 @@ function* interpret(code, start, end) {
                 break;
 
             case '>':
-                if ((vMemory.pointer + 2) < MEMORY_SIZE) {
+                if ((vMemory.pointer + 1) < MEMORY_SIZE) {
                     vMemory.pointer++;
                 } else {
                     vMemory.pointer = 0;
