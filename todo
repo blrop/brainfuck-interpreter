@@ -2,5 +2,3 @@
 - comments in the brainfuck code
 - ability to change step delay
 - code examples
-
-- use setTimeout instead? can make a better performance

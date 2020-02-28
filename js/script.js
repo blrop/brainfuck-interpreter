@@ -48,14 +48,14 @@ let vCode = new Vue({
             let iterator = interpret(this.code, 0, this.code.length);
 
             let item = iterator.next();
-            let intervalId = setInterval(() => {
-                if (!item.done && this.running) {
+            setTimeout(function step() {
+                if (!item.done && vCode.running) {
                     item = iterator.next();
-                    this.selected = item.value;
+                    vCode.selected = item.value;
                     vMemory.selected = vMemory.pointer;
+                    setTimeout(step, STEP_DELAY);
                 } else {
-                    clearInterval(intervalId);
-                    this.running = false;
+                    vCode.running = false;
                 }
             }, STEP_DELAY);
         },
