@@ -74,8 +74,7 @@ button {
 
 .output-content {
     font-family: monospace;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .code-viewer {
