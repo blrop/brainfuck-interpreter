@@ -1,65 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Brainfuck interpreter</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <main>
-        <div class="container">
-            <h1>Brainfuck interpreter</h1>
+        <h1>Brainfuck interpreter</h1>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div id="code">
-                        <h2>Code</h2>
-                        <textarea v-if="!running" class="code" v-model="code"></textarea>
-                        <div v-else class="code-readonly">
-                            <template v-for="(item, index) in code">
-                                <span v-bind:class="{ current: index == selected }">{{ item }}</span>
-                            </template>
-                        </div>
-                        <button v-if="!running" v-on:click="start" class="btn btn-primary"><i class="fa fa-play"></i> Start</button>
-                        <button v-else v-on:click="stop" class="btn btn-secondary"><i class="fa fa-stop"></i> Stop</button>
-                    </div>
+        <div class="main-content">
 
-                    <div id="output">
-                        <h2>Output</h2>
-                        <div class="content">{{ content }}</div>
+            <div>
+                <div id="code">
+                    <h2>Code</h2>
+                    <textarea v-if="!running" class="code-editor" v-model="code"></textarea>
+                    <div v-else class="code-viewer">
+                        <template v-for="(item, index) in code">
+                            <span v-bind:class="{ 'code-viewer__current-operator': index == selected }">{{ item }}</span>
+                        </template>
                     </div>
+                    <button v-if="!running" v-on:click="start">▶ Start</button>
+                    <button v-else v-on:click="stop">⏹ Stop</button>
                 </div>
-                <div class="col-md-6">
-                    <div id="memory">
-                        <h2>Visual memory</h2>
-                        <div class="visual-memory">
-                            <div class="items-wrapper">
-                                <template v-for="item in content">
-                                    <div class="item item--pixel" v-bind:style="{ background: getItemColor(item) }"></div>
-                                </template>
-                            </div>
-                        </div>
 
-                        <h2>Memory</h2>
-                        <div class="items-wrapper">
-                            <template v-for="(item, index) in content">
-                                <div class="item" v-bind:class="{ selected: index == selected }">
-                                    <div class="index">
-                                        {{ index }}
-                                    </div>
-                                    <div class="value">{{ item }}</div>
-                                </div>
+                <div id="output">
+                    <h2>Output</h2>
+                    <div class="output-content">{{ content }}</div>
+                </div>
+            </div>
+
+            <div>
+                <div id="memory">
+                    <h2>Visual memory</h2>
+                    <div class="visual-memory-wrapper">
+                        <div class="visual-memory">
+                            <template v-for="item in content">
+                                <div class="visual-memory__pixel" v-bind:style="{ background: getItemColor(item) }"></div>
                             </template>
                         </div>
+                    </div>
+
+                    <h2>Memory</h2>
+                    <div class="memory">
+                        <template v-for="(item, index) in content">
+                            <div class="memory__item" v-bind:class="{ 'memory__item--selected': index == selected }">
+                                <div class="memory__item-index">
+                                    {{ index }}
+                                </div>
+                                <div class="memory__item-value">{{ item }}</div>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 
-    <script src="js/vue.js"></script>
+    <script src="js/vue.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
