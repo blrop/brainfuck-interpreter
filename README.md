@@ -1,9 +1,5 @@
 ## Brainfuck interpreter 
 
-The working app can be found here: https://blrop.ru/projects/brainfuck-interpreter
-
-____
-
 [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) is an esoteric programming language created in 1993 by Urban Müller.
 
 This app is an interactive interpreter of Brainfuck written in JavaScript. 
